@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/home/HomeView.vue'
 import UserSupports from '@/views/supports/UserSupportsView.vue'
+import ModulesAndLessons from '@/views/modules/ModulesAndLessons.vue'
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
         path: 'minhas-duvidas',
         name: 'campus.user.supports',
         component: UserSupports,
+      },
+      {
+        path: 'modulos',
+        name: 'campus.modules',
+        component: ModulesAndLessons,
       }
     ]
   }
