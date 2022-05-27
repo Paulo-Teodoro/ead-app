@@ -1,3 +1,5 @@
+import AuthService from "@/services/AuthService"
+
 export default {
     state: {
         user: {
@@ -8,11 +10,11 @@ export default {
     },
 
     mutations: {
-        SET_USER (state, user) {
+        SET_USER(state, user) {
             state.user = user
             state.loggedIn = true
         },
-        LOGOUT (state) {
+        LOGOUT(state) {
             state.user = {
                 name: '',
                 email: '',
@@ -22,5 +24,9 @@ export default {
     },
 
     actions: {
+        auth({ state }, params) {
+            state.loggedIn = false
+            AuthService.auth(params)
+        }
     },
 }

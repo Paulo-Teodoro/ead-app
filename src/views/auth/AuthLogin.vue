@@ -13,7 +13,7 @@
       <input type="password" name="password" placeholder="Senha" required />
       <i class="far fa-eye buttom"></i>
     </div>
-    <button class="btn primary" type="submit">Login</button>
+    <button class="btn primary" @click.prevent="auth" type="submit">Login</button>
   </form>
   <span>
     <p class="fontSmall">
@@ -24,7 +24,24 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
+
 export default {
-    name: 'AuthLogin'
+    name: 'AuthLogin',
+    setup() {
+      const store = new useStore()
+
+      const auth = () => {
+        store.dispatch('auth', {
+          email: 'pauloteodoroti@gmail.com.br',
+          password: '123456',
+          device_name: 'teste_vue_3'
+        })
+      }
+
+      return {
+        auth
+      }
+    }
 }
 </script>
