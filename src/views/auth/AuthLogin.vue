@@ -41,7 +41,7 @@
   <span>
     <p class="fontSmall">
       Esqueceu sua senha? 
-      <router-link :to="{name: 'auth.forget.password'}" class="link primary">Clique aqui</router-link>
+      <router-link :to="{name: 'auth.forgot.password'}" class="link primary">Clique aqui</router-link>
     </p>
   </span>
 </template>

@@ -4,7 +4,7 @@ import UserSupports from '@/views/supports/UserSupportsView.vue'
 import ModulesAndLessons from '@/views/modules/ModulesAndLessons.vue'
 import AuthTemplate from '@/views/auth/AuthTemplate.vue'
 import AuthLogin from '@/views/auth/AuthLogin.vue'
-import AuthForgetPassword from '@/views/auth/AuthForgetPassword.vue'
+import AuthForgotPassword from '@/views/auth/AuthForgotPassword.vue'
 
 const routes = [
   {
@@ -19,8 +19,8 @@ const routes = [
       },
       {
         path:'/recuperar-senha',
-        name: 'auth.forget.password',
-        component: AuthForgetPassword,
+        name: 'auth.forgot.password',
+        component: AuthForgotPassword,
       }
     ]
   },
