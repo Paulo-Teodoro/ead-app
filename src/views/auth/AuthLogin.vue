@@ -50,6 +50,7 @@
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '@/router'
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'AuthLogin',
@@ -68,8 +69,24 @@ export default {
           password: password.value,
           device_name: 'teste_vue_3'
         })
-        .then(() => router.push({name: 'campus.home'}))
-        .catch(() => alert('error'))
+        .then(() => {
+          notify({
+            title: "Sucesso",
+            text: "Login efetuado com sucesso"
+          })
+          router.push({name: 'campus.home'})
+        })
+        .catch((error) => {
+          let msgError = 'Falha na requisição'
+
+          if(error.status === 422) msgError = 'Dados Inválidos'
+
+          notify({
+            title: "Falha ao Autenticar",
+            text: msgError,
+            type: "warn"
+          })
+        })
         .finally(() => loading.value = false)
       }
 

@@ -55,6 +55,7 @@
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 import ResetPasswordService from "@/services/reset.password.service"
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
     name: 'AuthResetPassword',
@@ -79,8 +80,24 @@ export default {
           password_confirmation: password_confirmation.value,
           token: props.token
         })
-        .then(() => router.push({name: 'auth.login'}))
-        .catch(() => alert('error'))
+        .then(() => {
+          notify({
+            title: "Sucesso",
+            text: "Senha Alterada"
+          })
+          router.push({name: 'auth.login'})
+        })
+        .catch((error) => {
+          let msgError = 'Falha na requisição'
+
+          if(error.status === 422) msgError = 'Dados Inválidos'
+
+          notify({
+            title: "Falha",
+            text: msgError,
+            type: "warn"
+          })
+        })
         .finally(() => loading.value = false)
       }
 
