@@ -12,8 +12,10 @@
         <div class="content">
             <ul class="listCourses">
                 <card-course
-                  :title="'Curso LaraFood + VueFood + FlutterFood'"
-                  :image="''"
+                  v-for="course in courses"
+                  :key="course.id"
+                  :title="course.name"
+                  :image="course.image"
                   :bgName="'laravel'"
                 >
                 </card-course>
@@ -24,9 +26,24 @@
 
 <script>
 import CardCourse from './components/CardCourse.vue'
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
 
 export default {
   name: 'HomeView',
+  setup() {
+    const store = useStore()
+    
+    onMounted(() => {
+      store.dispatch('getCourses')
+    })
+
+    const courses = computed(() => store.state.courses.courseItems)
+
+    return {
+      courses
+    }
+  },
   components: {
     CardCourse
   }
