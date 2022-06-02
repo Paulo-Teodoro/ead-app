@@ -439,6 +439,10 @@ section .container {
             height: 6px;
             line-height: 0;
           }
+          
+          &.active {
+            background-color: $flutterColor;
+          }
 
           &:hover {
             background-color: $flutterColor;

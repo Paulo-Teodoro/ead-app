@@ -5,12 +5,19 @@
         <span class="text">Modulos</span>
         <span class="icon far fa-stream"></span>
       </div>
-      <div class="modules" v-for="module in modules" :key="module.id">
-        <div class="name">
+      <div 
+        v-for="module in modules" 
+        :key="module.id"
+        @click="toggleModule(module.id)"
+        :class="[
+          'modules'
+        ]" 
+      >
+        <div class="name" :class="module.id == showModule ? 'active' : ''">
           <span class="text">{{ module.name }}</span>
           <span class="icon fas fa-sort-down"></span>
         </div>
-        <ul class="classes">
+        <ul class="classes" v-show="module.id == showModule">
           <li v-for="lesson in module.lessons" :key="lesson.id">
             <span
               v-if="lesson.views.length > 0"
@@ -26,7 +33,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed } from '@vue/runtime-core'
+import { computed, ref } from '@vue/runtime-core'
 export default {
   name: 'ModulesList',
   setup() {
@@ -34,8 +41,19 @@ export default {
 
       const modules = computed(() => store.state.courses.courseSelected.modules)
 
+      const showModule = ref('0')
+
+      const toggleModule = (moduleId) => {
+        if(moduleId == showModule.value) {
+          return showModule.value = '0'
+        } 
+        return showModule.value = moduleId
+      }
+
       return {
-          modules
+          modules,
+          showModule,
+          toggleModule
       }
   },
 }
