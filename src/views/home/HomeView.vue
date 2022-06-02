@@ -14,8 +14,7 @@
                 <card-course
                   v-for="course in courses"
                   :key="course.id"
-                  :title="course.name"
-                  :image="course.image"
+                  :course="course"
                   :bgName="'laravel'"
                 >
                 </card-course>
