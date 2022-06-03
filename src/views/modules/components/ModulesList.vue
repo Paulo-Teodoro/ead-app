@@ -21,6 +21,7 @@
           <li 
             v-for="lesson in module.lessons" 
             :key="lesson.id"
+            :class="{'active' : lesson.id === lessonInPlayer.id}"
             @click.prevent="setLessonPlayer(lesson)"
           >
             <span
@@ -48,21 +49,21 @@ export default {
       const showModule = ref('0')
 
       const toggleModule = (moduleId) => {
-        if(moduleId == showModule.value) {
-          return showModule.value = '0'
-        } 
-        return showModule.value = moduleId
+        showModule.value = moduleId
       }
 
       const setLessonPlayer = (lesson) => {
         store.commit('SET_LESSON_PLAYER', lesson)
       }
 
+      const lessonInPlayer = computed(() => store.state.courses.lessonPlayer)
+
       return {
           modules,
           showModule,
           toggleModule,
-          setLessonPlayer
+          setLessonPlayer,
+          lessonInPlayer
       }
   },
 }
