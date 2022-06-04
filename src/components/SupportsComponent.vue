@@ -19,9 +19,12 @@
               <span class="text">{{ support.description }}</span>
             </div>
           </div>
-          <button class="btn primary">Ocultar respostas</button>
+          <button class="btn primary" @click.prevent="toggleSupport(support.id)">
+            <span v-if="showSupport === support.id">Ocultar respostas</span>
+            <span v-else>Exibir respostas (total: {{ support.replies.length }})</span>
+          </button>
         </div>
-        <div class="answersContent">
+        <div class="answersContent" v-show="support.id == showSupport">
           <div 
             :class="[
               'commentContent',
@@ -66,7 +69,7 @@
     </div>
 </template>
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 export default {
     name: 'SupportsComponent',
@@ -75,8 +78,19 @@ export default {
 
       const supports = computed(() => store.state.supports.supports)
 
+      const showSupport = ref('0')
+
+      const toggleSupport = (supportId) => {
+        if(supportId == showSupport.value) {
+          return showSupport.value = '0'
+        }
+        return showSupport.value = supportId
+      }
+
       return {
         supports,
+        showSupport,
+        toggleSupport
       }
     }
 }
