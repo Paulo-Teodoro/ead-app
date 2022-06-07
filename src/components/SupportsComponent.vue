@@ -62,15 +62,24 @@
             </span>
           </div>
           <span class="answer">
-            <button class="btn primary">Responder</button>
+            <button class="btn primary" @click.prevent="openModal(support.id)">Responder</button>
           </span>
         </div>
+        <support-modal-component
+          :showModal="modal.showModal"
+          :supportReply="modal.supportReply"
+          @closeModal="modal.showModal = false"
+        >    
+        </support-modal-component>
       </div>
     </div>
 </template>
 <script>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+
+import SupportModalComponent from './SupportModalComponent.vue'
+
 export default {
     name: 'SupportsComponent',
     setup() {
@@ -79,6 +88,15 @@ export default {
       const supports = computed(() => store.state.supports.supports)
 
       const showSupport = ref('0')
+
+      const modal = ref({
+        showModal: false,
+        supportReply: ''
+      })
+      const openModal = (supportId) => modal.value = {
+        showModal: true,
+        supportReply: supportId
+      }
 
       const toggleSupport = (supportId) => {
         if(supportId == showSupport.value) {
@@ -90,8 +108,14 @@ export default {
       return {
         supports,
         showSupport,
-        toggleSupport
+        toggleSupport,
+        modal,
+        openModal
       }
+    },
+
+    components: {
+      SupportModalComponent
     }
 }
 </script>

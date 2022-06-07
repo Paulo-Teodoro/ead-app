@@ -66,7 +66,7 @@ export default {
         }
     },
     emits: ['closeModal'],
-    setup(_, {emit}) {
+    setup(props, {emit}) {
         const store = useStore()
         const lesson = computed(() => store.state.courses.lessonPlayer)
         const description = ref('')
@@ -76,14 +76,21 @@ export default {
             const params = {
               lesson: lesson.value.id,
               description: description.value,
-              status: 'P'
+              status: 'P',
+              support_id: props.supportReply
             }
 
-            store.dispatch('createSupportByLesson', params)
+            let actionName = 'createSupportByLesson'
+
+            if(params.support_id != '')
+              actionName = 'createReplySupport'
+
+            store.dispatch(actionName, params)
                   .then(() => {
                     description.value = ''
                     emit('closeModal')
                   })
+                  .finally(() => loading.value = false)
         }
         return {
             description,
