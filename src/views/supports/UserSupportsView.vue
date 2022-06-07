@@ -39,9 +39,30 @@
 </template>
 
 <script>
-import SupportsComponent from "@/components/SupportsComponent.vue";
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+
+import SupportsComponent from "@/components/SupportsComponent.vue"
+
 export default {
   name: "UserSupportsView",
+  setup() {
+    const store = useStore()
+
+    const status = ref('')
+
+    onMounted(() => {
+      store.dispatch('getUserSupports', {
+        params: {
+          status: status.value
+        }
+      })
+    })
+
+    return {
+
+    }
+  },
   components: { SupportsComponent },
 };
 </script>

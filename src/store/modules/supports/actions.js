@@ -6,6 +6,11 @@ const actions = {
                                 .then(supports => commit('SET_SUPPORTS', supports))
     },
 
+    getUserSupports({commit}, params) {
+        return SupportService.getUserSupports(params)
+                                .then(response => commit('SET_SUPPORTS', response))
+    },
+
     createSupportByLesson({commit}, params) {
         return SupportService.storeSupportByLesson(params)
                                 .then(response => commit('ADD_NEW_SUPPORT', response.data))
