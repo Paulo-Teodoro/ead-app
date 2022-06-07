@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
     name: "SupportModalComponent",
     props: {
@@ -65,14 +66,27 @@ export default {
         }
     },
     emits: ['closeModal'],
-    setup() {
-        const textarea = ref('')
+    setup(_, {emit}) {
+        const store = useStore()
+        const lesson = computed(() => store.state.courses.lessonPlayer)
+        const description = ref('')
         const loading = ref(false)
         const sendForm = () => {
-            
+            loading.value = true
+            const params = {
+              lesson: lesson.value.id,
+              description: description.value,
+              status: 'P'
+            }
+
+            store.dispatch('createSupportByLesson', params)
+                  .then(() => {
+                    description.value = ''
+                    emit('closeModal')
+                  })
         }
         return {
-            textarea,
+            description,
             loading,
             sendForm,
         }
