@@ -18,10 +18,10 @@
             </div>
             <div class="modules">
               <ul class="classes">
-                <li>Todos</li>
-                <li>Aguardando Minha Resposta</li>
-                <li>Aguardando Professor</li>
-                <li>Finalizados</li>
+                <li :class="{active: status === ''}" @click="getUserSupportsWithStatus('')">Todos</li>
+                <li :class="{active: status === 'A'}" @click="getUserSupportsWithStatus('A')">Aguardando Minha Resposta</li>
+                <li :class="{active: status === 'P'}" @click="getUserSupportsWithStatus('P')">Aguardando Professor</li>
+                <li :class="{active: status === 'C'}" @click="getUserSupportsWithStatus('C')">Finalizados</li>
               </ul>
             </div>
           </div>
@@ -59,8 +59,18 @@ export default {
       })
     })
 
-    return {
+    const getUserSupportsWithStatus = (newStatus) => {
+      status.value = newStatus
+      store.dispatch('getUserSupports', {
+        params: {
+          status: status.value
+        }
+      })
+    }
 
+    return {
+      status,
+      getUserSupportsWithStatus
     }
   },
   components: { SupportsComponent },
