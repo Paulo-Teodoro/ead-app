@@ -3,13 +3,13 @@
         <transition name="fade">
             <ul id="mainMenu">
                 <li>
-                    <router-link :to="{name: 'campus.home'}">Início</router-link>
+                    <router-link :to="{name: 'campus.home'}" @click="$emit('toggleMenu')">Início</router-link>
                 </li>
                 <li>
-                    <router-link :to="{name: 'campus.user.supports'}">Minhas Dúvidas</router-link>
+                    <router-link :to="{name: 'campus.user.supports'}" @click="$emit('toggleMenu')">Minhas Dúvidas</router-link>
                 </li>
                 <li>
-                    <a href="">Sair</a>
+                    <a href="" @click="$emit('toggleMenu')">Sair</a>
                 </li>
             </ul>
         </transition>
@@ -19,5 +19,6 @@
 <script>
 export default {
     name: 'SideMenuComponent',
+    emits: ['toggleMenu']
 }
 </script>

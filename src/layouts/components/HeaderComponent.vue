@@ -8,26 +8,31 @@
         </nav>
     </header>
 
-    <side-menu-component v-show="showMenu">
+    <side-menu-component v-show="showMenu" ref="hide" @toggle-menu="toggleMenu">
     </side-menu-component>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 import SideMenuComponent from './SideMenuComponent.vue'
 
 export default {
     name: 'header-component',
-
     setup() {
         const showMenu = ref(false)
 
         const toggleMenu = () => showMenu.value = !showMenu.value
 
+        const hide = ref(null)
+
+        onClickOutside(hide, () => showMenu.value = false)
+
         return {
             showMenu,
-            toggleMenu
+            toggleMenu,
+            hide
         }
     },
 
