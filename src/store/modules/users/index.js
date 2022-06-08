@@ -25,9 +25,18 @@ export default {
     },
 
     actions: {
-        auth({ state }, params) {
+        auth({ state, dispatch }, params) {
             state.loggedIn = false
             return AuthService.auth(params)
+                                .then(() => dispatch('getUser'))
+        },
+
+        getUser({ commit }) {
+            commit('SET_LOADING', true)
+
+            AuthService.getUser()
+                        .then(response => commit('SET_USER', response.data))
+                        .finally(() => commit('SET_LOADING', false))
         },
 
         forgotPassword({ state }, params) {
