@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 export default {
     name: 'PlayerLesson',
@@ -39,6 +39,11 @@ export default {
       const store = useStore()
 
       const lesson = computed(() => store.state.courses.lessonPlayer)
+
+      watch(() => store.state.courses.lessonPlayer, () => {
+        if(lesson.value.id != '')
+          store.dispatch('markLessonViewed')
+      })
 
       return {
         lesson
