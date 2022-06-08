@@ -17,13 +17,13 @@
     <div class="groupForm">
       <i class="far fa-key"></i>
       <input 
-        type="password" 
+        :type="typePassword" 
         name="password" 
         placeholder="Senha" 
         v-model="password"
         required 
       />
-      <i class="far fa-eye buttom"></i>
+      <i class="far fa-eye buttom" @click="toggleShowPassword"></i>
     </div>
     <button 
       :class="[
@@ -61,6 +61,9 @@ export default {
       const password = ref("")
       const loading = ref(false)
 
+      const typePassword = ref('password')
+      const toggleShowPassword = () => typePassword.value = typePassword.value === 'password' ? 'text' : 'password'
+
       const auth = () => {
         loading.value = true
 
@@ -94,7 +97,9 @@ export default {
         auth,
         email,
         password,
-        loading
+        loading,
+        typePassword,
+        toggleShowPassword
       }
     }
 }
