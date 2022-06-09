@@ -7,6 +7,9 @@ import AuthLogin from '@/views/auth/AuthLogin.vue'
 import AuthForgotPassword from '@/views/auth/AuthForgotPassword.vue'
 import AuthResetPassword from '@/views/auth/AuthResetPassword.vue'
 
+import store from "@/store"
+import { TOKEN_NAME } from "@/configs"
+
 const routes = [
   {
     path:'/',
@@ -57,6 +60,23 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, _, next) => {
+  const loggedIn = store.state.users.loggedIn
+  if (to.name != 'reset.password' && !loggedIn) {
+    const token = await localStorage.getItem(TOKEN_NAME)
+    if (!token && to.name != 'auth.login' && to.name != 'forgot.password') {
+      return router.push({name: 'auth.login'})
+    }
+
+    await store.dispatch('getUser')
+                .catch(() => {
+                  if (to.name != 'auth.login') return router.push({name: 'auth.login'})
+                })
+  }
+
+  next()
 })
 
 export default router

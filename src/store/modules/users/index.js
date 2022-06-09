@@ -35,7 +35,7 @@ export default {
             commit('SET_LOADING', true)
 
             AuthService.getUser()
-                        .then(response => commit('SET_USER', response.data))
+                        .then(user => commit('SET_USER', user))
                         .finally(() => commit('SET_LOADING', false))
         },
 

@@ -29,12 +29,13 @@
       :class="[
         'btn',
         'primary',
-        loading ? 'loading' : ''
+        loading || loadingStore ? 'disabled' : ''
       ]" 
       @click.prevent="auth" 
       type="submit"
     >
       <span v-if="loading">Enviando...</span>
+      <span v-else-if="loadingStore">Aguarde...</span>
       <span v-else>Login</span>
     </button>
   </form>
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+import { ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 import router from '@/router'
 import { notify } from "@kyvg/vue3-notification";
@@ -60,6 +61,17 @@ export default {
       const email = ref("")
       const password = ref("")
       const loading = ref(false)
+
+      const loadingStore = computed(() => store.state.loading)
+
+      watch(
+        () => store.state.users.loggedIn,
+        (loggedIn) => {
+          if(loggedIn) {
+            router.push({name: 'campus.home'})
+          }
+        }
+      )
 
       const typePassword = ref('password')
       const toggleShowPassword = () => typePassword.value = typePassword.value === 'password' ? 'text' : 'password'
@@ -99,7 +111,8 @@ export default {
         password,
         loading,
         typePassword,
-        toggleShowPassword
+        toggleShowPassword,
+        loadingStore
       }
     }
 }
