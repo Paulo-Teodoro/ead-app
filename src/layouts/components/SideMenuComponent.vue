@@ -9,7 +9,10 @@
                     <router-link :to="{name: 'campus.user.supports'}" @click="$emit('toggleMenu')">Minhas Dúvidas</router-link>
                 </li>
                 <li>
-                    <a href="" @click="$emit('toggleMenu')">Sair</a>
+                    <a href="#" @click.prevent="logout">
+                        <span v-if="loadingStore">Saindo...</span>
+                        <span v-else>Sair</span>
+                    </a>
                 </li>
             </ul>
         </transition>
@@ -17,8 +20,25 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import router from '@/router'
 export default {
     name: 'SideMenuComponent',
-    emits: ['toggleMenu']
+    emits: ['toggleMenu'],
+    setup() {
+        const store = useStore()
+
+        const logout = () => {
+            store.dispatch('logout')
+                    .then(router.push({name: 'auth.login'}))
+        }
+        const loadingStore = computed(() => store.state.loading)
+
+        return {
+            logout,
+            loadingStore
+        }
+    }
 }
 </script>
