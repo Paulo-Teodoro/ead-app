@@ -1,8 +1,8 @@
 import SupportService from '@/services/support.service'
 
 const actions = {
-    getSupportsByLesson({commit}, lessonId) {
-        return SupportService.getSupportsByLesson(lessonId)
+    getSupportsByLesson({commit}, params) {
+        return SupportService.getSupportsByLesson(params)
                                 .then(supports => commit('SET_SUPPORTS', supports))
     },
 

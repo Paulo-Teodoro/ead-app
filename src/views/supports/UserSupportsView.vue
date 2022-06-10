@@ -32,6 +32,10 @@
               <supports-component />
             </div>
           </div>
+          <pagination-component
+            :pagination="userSupports"
+            @changePage="changePage"
+          ></pagination-component>
         </div>
       </div>
     </div>
@@ -39,10 +43,11 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 import SupportsComponent from "@/components/SupportsComponent.vue"
+import PaginationComponent from '@/components/PaginationComponent.vue';
 
 export default {
   name: "UserSupportsView",
@@ -50,6 +55,8 @@ export default {
     const store = useStore()
 
     const status = ref('')
+
+    const userSupports = computed(() => store.state.supports.supports)
 
     onMounted(() => {
       store.dispatch('getUserSupports', {
@@ -68,11 +75,25 @@ export default {
       })
     }
 
+    const changePage = (page) => {
+      store.dispatch('getUserSupports', {
+        params : {
+          status: status.value,
+          page
+        }
+      }
+    )}
+
     return {
       status,
-      getUserSupportsWithStatus
+      getUserSupportsWithStatus,
+      userSupports,
+      changePage
     }
   },
-  components: { SupportsComponent },
+  components: { 
+    SupportsComponent, 
+    PaginationComponent 
+  },
 };
 </script>
